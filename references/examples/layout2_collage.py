@@ -2,8 +2,8 @@
 """Layout 2 - eight-panel collage (A-H).
 
 Distribution box, stacked proportion, three line-over-bar double-axis panels,
-a two-tier diagnostic, a value-labelled horizontal bar and a wide multi-series
-beeswarm, arranged as a standard journal collage. Synthetic, generic data.
+a two-tier diagnostic, a value-labelled horizontal bar, a diverging matrix and
+a wide multi-series beeswarm, arranged as a standard journal collage.
 """
 from __future__ import annotations
 import os
@@ -15,8 +15,9 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec, GridSpecFromSubplotSpec
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
+from matplotlib.colors import LinearSegmentedColormap
 
-from _layout_common import (HERE, apply_style, TXT, BAR_EDGE, letter, stamp,
+from _layout_common import (HERE, apply_style, TXT, BAR_EDGE, letter,
                             PINK, BLUE, BEIGE, NEUTRAL, VIOLET, ROSE,
                             DEEP_R, DEEP_B)
 
@@ -55,10 +56,10 @@ def double_axis(ax, bins, seed, ymax, ylab, show_y2=True):
     return ax2
 
 
-fig = plt.figure(figsize=(7.2, 8.3))
+fig = plt.figure(figsize=(7.2, 7.5))
 gs = GridSpec(4, 24, figure=fig, height_ratios=[1.00, 1.00, 1.00, 1.08],
-              hspace=0.92, wspace=3.0,
-              left=0.075, right=0.955, top=0.955, bottom=0.055)
+              hspace=0.72, wspace=2.8,
+              left=0.075, right=0.955, top=0.955, bottom=0.050)
 
 # ── A: two-group distribution ─────────────────────────────────────────────
 axA = fig.add_subplot(gs[0, 0:4])
@@ -119,7 +120,7 @@ letter(axE, "E", dx=-0.11)
 # ── F: two-tier diagnostic ────────────────────────────────────────────────
 STAGES = ["Stage\n1", "Stage\n2", "Stage\n3", "Stage\n4"]
 xs = np.arange(4)
-subF = GridSpecFromSubplotSpec(2, 1, subplot_spec=gs[1, 13:19],
+subF = GridSpecFromSubplotSpec(2, 1, subplot_spec=gs[1, 13:24],
                                hspace=0.18)
 axF1 = fig.add_subplot(subF[0])
 axF1.plot(xs, [0.88, 1.0, 0.98, 1.0], color=DEEP_B, marker="o", ms=3.2, lw=0.9,
@@ -131,7 +132,7 @@ axF1.set_xticks(xs); axF1.set_xticklabels([])
 axF1.set_ylabel("Detection rate", fontsize=7.2); axF1.tick_params(labelsize=6.5)
 axF1.text(0.5, 1.055, "Upper tier", transform=axF1.transAxes, ha="center",
           fontsize=6.6)
-letter(axF1, "F", dx=-0.26)
+letter(axF1, "F", dx=-0.055)
 
 axF2 = fig.add_subplot(subF[1])
 for i, m in enumerate([-0.22, -0.20, -0.12, -0.10]):
@@ -161,6 +162,29 @@ axG.set_xlim(0, 0.23); axG.set_xlabel("Score (arb. units)", fontsize=7)
 axG.tick_params(axis="x", labelsize=6.5)
 axG.axhline(y[4] + 0.5, color="#BBBBBB", lw=0.7, ls="--")
 letter(axG, "G", dx=-0.28)
+
+# ── I: diverging matrix, filling the row beside G ─────────────────────────
+DIV = LinearSegmentedColormap.from_list(
+    "bwo", ["#385a75", "#6192b5", "#98b4ce", "#f4f6f1", "#f2d9be",
+            "#eec0a3", "#d2894f"])
+axI = fig.add_subplot(gs[2, 11:24])
+ROWS = [f"Feature {i}" for i in range(1, 17)]
+COLS = ["Cond. 1", "Cond. 2", "Cond. 3", "Cond. 4", "Cond. 5", "Cond. 6"]
+M = (np.linspace(1.7, -1.5, len(ROWS))[:, None]
+     + rng.normal(0, 0.42, (len(ROWS), len(COLS)))
+     + np.array([0.25, 0.9, -0.2, -0.65, 0.1, -0.4]))
+imI = axI.imshow(M.T, cmap=DIV, vmin=-2, vmax=2, aspect="auto")
+axI.set_xticks(range(len(ROWS)))
+axI.set_xticklabels(ROWS, rotation=90, fontsize=5.4, fontstyle="italic")
+axI.set_yticks(range(len(COLS))); axI.set_yticklabels(COLS, fontsize=5.8)
+axI.tick_params(length=0)
+for sp in axI.spines.values():
+    sp.set_visible(False)
+cbI = fig.colorbar(imI, ax=axI, fraction=0.035, pad=0.015)
+cbI.set_label("$z$-score", fontsize=6.2)
+cbI.outline.set_visible(False)
+cbI.ax.tick_params(length=0, labelsize=5.6)
+letter(axI, "I", dx=-0.075, dy=1.26)
 
 # ── H: four cuts x five methods beeswarm ──────────────────────────────────
 axH = fig.add_subplot(gs[3, 0:24])
@@ -196,6 +220,5 @@ axH.legend(handles=[Line2D([], [], marker="o", ls="", mfc="none", mec=c,
            bbox_to_anchor=(0.0, 1.02), handlelength=1.0)
 letter(axH, "H", dx=-0.055)
 
-stamp(fig)
 fig.savefig(os.path.join(HERE, "layout2_collage.png"), dpi=200)
 print("wrote layout2_collage.png")

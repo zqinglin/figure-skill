@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Layout 1 - full-page time-course panel.
 
-Panel structure (raster pair -> cumulative curves -> binned area -> paired
-boxes) follows the standard full-page journal layout. All series are synthetic
-and generically named: this is a style template, not a result.
+Panel structure: raster pair -> cumulative curves -> binned area -> paired
+boxes, the standard full-page journal layout.
 """
 from __future__ import annotations
 import os
@@ -14,7 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from matplotlib.patches import Patch, Rectangle
 
-from _layout_common import (HERE, apply_style, TXT, GREY, letter, bracket, stamp)
+from _layout_common import (HERE, apply_style, TXT, GREY, letter, bracket, )
 
 apply_style()
 rng = np.random.default_rng(7)
@@ -26,11 +25,11 @@ SERIES = [("Series 1", "#3E7EBF", 130, 150),
           ("Series 5", "#6E3FA3", 195, 250)]
 GROUPS = ("Condition A", "Condition B")
 
-fig = plt.figure(figsize=(7.2, 8.6))
+fig = plt.figure(figsize=(7.2, 7.9))
 gs = GridSpec(5, 20, figure=fig,
               height_ratios=[1.00, 1.05, 1.05, 1.15, 1.15],
-              hspace=1.05, wspace=3.4,
-              left=0.075, right=0.985, top=0.945, bottom=0.055)
+              hspace=0.80, wspace=3.1,
+              left=0.075, right=0.985, top=0.950, bottom=0.050)
 
 # ── a: paired raster panels ───────────────────────────────────────────────
 for k, (gname, dens) in enumerate([(GROUPS[0], 0.30), (GROUPS[1], 1.0)]):
@@ -91,15 +90,15 @@ for i, (name, col, top_t, ymax) in enumerate(SERIES):
         letter(ax, "c", dx=-0.46)
 
 # ── d-k: paired boxes with per-unit connecting lines ──────────────────────
-PANELS = [("Metric 1 (arb.)", 110, 1.35, "#3E7EBF"),
-          ("Metric 2 (arb.)",  95, 3.10, "#22BDD2"),
-          ("Metric 3 (arb.)",  26, 3.40, "#A4342B"),
-          ("Metric 4 (arb.)", 140, 3.00, "#6E3FA3"),
-          ("Count 1",          26, 1.50, "#3E7EBF"),
-          ("Count 2",           8, 2.60, "#22BDD2"),
-          ("Count 3",         2.2, 3.00, "#A4342B"),
-          ("Count 4",          10, 2.70, "#6E3FA3")]
-for j, (ylab, base, fold, col) in enumerate(PANELS):
+PANELS = [("Metric 1 (arb.)", 110, 1.35, "#3E7EBF", "*"),
+          ("Metric 2 (arb.)",  95, 3.10, "#22BDD2", "**"),
+          ("Metric 3 (arb.)",  26, 3.40, "#A4342B", "**"),
+          ("Metric 4 (arb.)", 140, 3.00, "#6E3FA3", "***"),
+          ("Count 1",          26, 1.50, "#3E7EBF", "***"),
+          ("Count 2",           8, 2.60, "#22BDD2", "**"),
+          ("Count 3",         2.2, 3.00, "#A4342B", "***"),
+          ("Count 4",          10, 2.70, "#6E3FA3", "***")]
+for j, (ylab, base, fold, col, mark) in enumerate(PANELS):
     r, c = divmod(j, 4)
     ax = fig.add_subplot(gs[3 + r, c * 5:c * 5 + 5])
     n = 20
@@ -115,11 +114,10 @@ for j, (ylab, base, fold, col) in enumerate(PANELS):
         ax.plot([0, 1], [v[i], w[i]], color="#C9C9C9", lw=0.45, zorder=1)
     top = max(np.percentile(v, 95), np.percentile(w, 95))
     ax.set_ylim(0, top * 1.42)
-    bracket(ax, 0, 1, top * 1.12, "comparison", size=6.4)
+    bracket(ax, 0, 1, top * 1.12, mark, size=8.5)
     ax.set_xticks([0, 1]); ax.set_xticklabels(GROUPS, fontsize=7.2)
     ax.set_ylabel(ylab, fontsize=7.6); ax.tick_params(labelsize=7)
     letter(ax, "defghijk"[j], dx=-0.26)
 
-stamp(fig)
 fig.savefig(os.path.join(HERE, "layout1_timecourse_panel.png"), dpi=200)
 print("wrote layout1_timecourse_panel.png")

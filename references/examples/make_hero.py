@@ -2,7 +2,7 @@
 """16:9 hero image for the project front page.
 
 Eight miniature charts drawn natively (not stitched from PNGs) so the banner
-stays crisp, plus the palette strip. Synthetic data throughout.
+stays crisp, plus the palette strip.
 """
 from __future__ import annotations
 import os
@@ -109,12 +109,30 @@ ax.set_theta_offset(np.pi / 2)
 ax.set_title("Radar profile", fontsize=9, pad=9, color=TXT)
 
 # ── 5: projection scatter ─────────────────────────────────────────────────
+def cloud(n, scale, seed, bend, aniso):
+    """Anisotropic, rotated, slightly bent cluster - reads as a real projection."""
+    r = np.random.default_rng(seed)
+    sx, sy = aniso
+    p = np.c_[r.normal(0, sx, n), r.normal(0, sy, n)]
+    p[:, 1] += bend * (p[:, 0] ** 2 - sx ** 2) / sx
+    k = n // 6
+    t = r.uniform(0, 1, k)
+    p[:k, 0] = p[:k, 0] * 0.3 + sx * 1.6 * t
+    p[:k, 1] = p[:k, 1] * 0.3 + bend * sx * 1.4 * t ** 2
+    th = r.uniform(0, 2 * np.pi)
+    R = np.array([[np.cos(th), -np.sin(th)], [np.sin(th), np.cos(th)]])
+    return (p @ R.T) * scale
+
+
 ax = fig.add_subplot(gs[2, 0])
 cols = [P7[2], P9[1], P7[5], P8[2], P8[4], P3[0]]
+cr = np.random.default_rng(77)
 for i, c in enumerate(cols):
-    ctr = np.array([np.cos(i * 1.05) * 3.6, np.sin(i * 1.05) * 3.0])
-    pts = rng.normal(ctr, 0.85, (260, 2))
-    ax.scatter(pts[:, 0], pts[:, 1], s=2.2, color=c, alpha=0.6, linewidths=0)
+    ctr = np.array([np.cos(i * 1.05) * 3.3, np.sin(i * 1.05) * 2.7])
+    pts = cloud(520, cr.uniform(0.85, 1.25), 500 + i,
+                cr.uniform(0.15, 0.5) * cr.choice([-1, 1]),
+                (cr.uniform(0.8, 1.3), cr.uniform(0.30, 0.55))) + ctr
+    ax.scatter(pts[:, 0], pts[:, 1], s=1.5, color=c, alpha=0.55, linewidths=0)
 ax.set_xticks([]); ax.set_yticks([])
 for s in ax.spines.values(): s.set_visible(False)
 mini(ax, "2-D projection")
@@ -170,9 +188,6 @@ for i, c in enumerate(chips):
 strip.text(0, 0.02, "9 journal palettes  ·  CVD-safe  ·  Times-metric serif  "
                     "·  300 dpi  ·  embedded fonts",
            transform=strip.transAxes, fontsize=8.5, color="#8A8A8A", va="top")
-strip.text(1.0, 0.02, "Synthetic data · style demonstration",
-           transform=strip.transAxes, fontsize=8, color="#A8A8A8",
-           va="top", ha="right")
 
 # apply_style() sets savefig.bbox="tight"; clear it so the banner keeps its
 # exact 16:9 canvas instead of being trimmed to the drawn content.

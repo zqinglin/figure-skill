@@ -2,8 +2,8 @@
 """Layout 4 - one radar, five palettes.
 
 A hero radar over a 2x2 grid of palette variants, each in a titled box: the
-standard "same chart, which palette" comparison layout. Two synthetic entities
-over seven normalised dimensions.
+standard "same chart, which palette" comparison layout. Two entities over seven
+normalised dimensions.
 """
 from __future__ import annotations
 import os
@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
-from _layout_common import HERE, apply_style, TXT, stamp
+from _layout_common import HERE, apply_style, TXT
 
 apply_style()
 
@@ -96,6 +96,5 @@ for (px, py), (title, ca, cb) in zip(POS, VARIANTS[1:]):
               bbox_to_anchor=(1.10, 0.50), handlelength=1.0,
               labelspacing=0.3)
 
-stamp(fig, x=0.945, y=0.004)
 fig.savefig(os.path.join(HERE, "layout4_radar_variants.png"), dpi=200)
 print("wrote layout4_radar_variants.png")

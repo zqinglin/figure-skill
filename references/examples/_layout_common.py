@@ -17,13 +17,8 @@ DEEP_R, DEEP_B = "#C4716D", "#6E9CC4"
 P6 = ["#E68600", "#2CA8A2", "#3E7EBF", "#C1272D", "#6E3FA3",
       "#4CAF50", "#CDBE91", "#9E9E9E"]
 
-STAMP = "Synthetic data · layout demonstration"
 
 
-def stamp(fig, x=0.995, y=0.004):
-    """Mark the figure as a style template, not a result."""
-    fig.text(x, y, STAMP, ha="right", va="bottom",
-             fontsize=6, color="#8A8A8A")
 
 
 def letter(ax, s, dx=-0.20, dy=1.14, size=10.5):

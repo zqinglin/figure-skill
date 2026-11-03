@@ -4,8 +4,7 @@ Everything here is **original**: synthetic data drawn only with
 `figure_style.apply_style()` and the palettes in `../palettes.md`. Nothing is
 copied from a published figure — these reproduce the *layout conventions* of
 top-journal figures so you have a visual target for each chart family in
-`../chart-selection.md`. Every figure carries a "synthetic data" mark so it can
-never be mistaken for a result.
+`../chart-selection.md`.
 
 Regenerate everything:
 
@@ -25,7 +24,7 @@ The four canonical journal page layouts, panel-for-panel.
 | File | Layout | Panels |
 |---|---|---|
 | `layout1_timecourse_panel.png` | Time-course page | raster pair (a) → cumulative curves ×5 (b) → binned area ×5 (c) → paired boxes ×8 (d–k) |
-| `layout2_collage.png` | Eight-panel collage | distribution box (A), stacked proportion (B), line-over-bar double axis ×3 (C–E), two-tier diagnostic (F), value-labelled bars (G), wide beeswarm (H) |
+| `layout2_collage.png` | Eight-panel collage | distribution box (A), stacked proportion (B), line-over-bar double axis ×3 (C–E), two-tier diagnostic (F), value-labelled bars (G), diverging matrix (I), wide beeswarm (H) |
 | `layout3_atlas.png` | 2-D projection atlas | main projection (D), sorted counts (E), two sub-population projections with count lists (F, G), three detail projections (H–J) |
 | `layout4_radar_variants.png` | One chart, five palettes | hero radar + 2×2 palette variants in titled boxes |
 
