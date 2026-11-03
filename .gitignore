@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+figure_style_swatch.pdf
+.DS_Store
