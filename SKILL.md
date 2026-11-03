@@ -21,6 +21,9 @@ Three things live here:
 3. **`references/chart-selection.md`** — "what data uses what chart": a
    data-shape cheat sheet and 15 chart families, each with when to use it,
    when not to, and the specific trap that breaks it.
+4. **`references/examples/`** — 10 worked example figures (original, synthetic
+   data) showing each chart family in the palettes above; `make_examples.py`
+   regenerates them. Use them as visual targets.
 
 ## The hard rules (do these every time)
 

@@ -28,6 +28,7 @@ for base in "${targets[@]}"; do
   cp "$SRC_DIR/figure_style.py"            "$dest/"
   cp "$SRC_DIR/references/palettes.md"     "$dest/references/"
   cp "$SRC_DIR/references/chart-selection.md" "$dest/references/"
+  cp -r "$SRC_DIR/references/examples"     "$dest/references/"
   echo "installed -> $dest"
 done
 
