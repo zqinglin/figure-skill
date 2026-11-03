@@ -21,9 +21,11 @@ Three things live here:
 3. **`references/chart-selection.md`** — "what data uses what chart": a
    data-shape cheat sheet and 15 chart families, each with when to use it,
    when not to, and the specific trap that breaks it.
-4. **`references/examples/`** — 10 worked example figures (original, synthetic
-   data) showing each chart family in the palettes above; `make_examples.py`
-   regenerates them. Use them as visual targets.
+4. **`references/examples/`** — the gallery: four full-page layout
+   reproductions (time-course page, eight-panel collage, projection atlas,
+   one-chart-five-palettes), ten single-chart examples, and the 16:9 banner.
+   All original, synthetic data, regenerable. Use them as visual targets —
+   match the panel structure, then swap in your data.
 
 ## The hard rules (do these every time)
 

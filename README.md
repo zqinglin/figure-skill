@@ -1,5 +1,7 @@
 # figure-skill
 
+![figure-skill](references/examples/hero.png)
+
 A Claude skill (and a standalone matplotlib toolkit) for making
 publication-quality figures for papers — Nature / Science / Cell / ICLR /
 NeurIPS. It bundles journal-grade color palettes, the mandatory matplotlib
@@ -14,7 +16,7 @@ style module, so every panel in a paper reads as one system.
 | `figure_style.py` | Import it, call `apply_style()`, draw with the named CVD-safe palettes and correct figure widths. |
 | `references/palettes.md` | 9 journal-grade color palettes + the full style rules. |
 | `references/chart-selection.md` | Data-shape → chart-type cheat sheet and 15 chart families, each with when to use / when not / the trap. |
-| `references/examples/` | 10 worked example figures (original, synthetic data) + `make_examples.py` to regenerate them. See its `gallery.png`. |
+| `references/examples/` | Gallery: four full-page layout reproductions, ten single-chart examples and the 16:9 banner — all original, synthetic data, regenerable. |
 
 ## Quick start
 
